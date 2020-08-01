@@ -42,7 +42,7 @@ http
 
       // 拉取仓库最新代码
       execSync(
-        `git clone https://github.com/yeyan1996/${data.repository.name}.git ${projectDir}`,
+        `git clone https://github.com/zongyuan-vale/${data.repository.name}.git ${projectDir}`,
         {
           stdio: 'inherit',
         }
