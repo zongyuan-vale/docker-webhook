@@ -29,14 +29,14 @@ const resolvePost = (req) =>
     });
     req.on('end', () => {
       try {
-        resolve(JSON.parse(body));
-      } catch (error) {
         let res = decodeURIComponent(body);
         if (res.startsWith('payload=')) {
           resolve(JSON.parse(res.split('payload=')[1]));
         } else {
-          reject(new Error('无法处理的返回值'));
+          resolve(JSON.parse(body));
         }
+      } catch (error) {
+        reject(new Error('无法处理的返回值'));
       }
     });
   });
