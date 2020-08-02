@@ -2,7 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
     <HelloWorld msg="Welcome to Your Vue.js App" />
-    <div>hello world. 张宗源 李小洁</div>
+    <div>张宗源 ~ 李小洁</div>
   </div>
 </template>
 
