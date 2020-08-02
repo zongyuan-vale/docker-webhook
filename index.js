@@ -33,7 +33,7 @@ const resolvePost = (req) =>
       } catch (error) {
         let res = decodeURIComponent(body);
         if (res.startsWith('payload=')) {
-          resolve(JSON.parse(res.split('=')[1]));
+          resolve(JSON.parse(res.split('payload=')[1]));
         } else {
           reject(new Error('无法处理的返回值'));
         }
