@@ -24,7 +24,7 @@ const resolvePost = (req) =>
   new Promise((resolve) => {
     let chunk = '';
     req.on('data', (data) => {
-      chunk = data;
+      chunk += data;
     });
     req.on('end', () => {
       resolve(JSON.parse(chunk));
