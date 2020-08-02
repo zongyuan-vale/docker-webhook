@@ -24,9 +24,11 @@ const resolvePost = (req) =>
   new Promise((resolve) => {
     let chunk = '';
     req.on('data', (data) => {
+      console.log('data --- ', data);
       chunk += data;
     });
     req.on('end', () => {
+      console.log('chunk --- ', chunk);
       resolve(JSON.parse(chunk));
     });
   });
@@ -37,6 +39,7 @@ http
     console.log(req.url);
     if (req.method === 'POST' && req.url === '/') {
       const data = await resolvePost(req);
+      console.log("resolvePost --- ",data);
       const projectDir = path.resolve(`./${data.repository.name}`);
       deleteFolderRecursive(projectDir);
 
