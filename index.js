@@ -65,16 +65,16 @@ http
       );
 
       // 复制 Dockerfile 到项目目录
-      fs.copyFileSync(
-        path.resolve(`./Dockerfile`),
-        path.resolve(projectDir, './Dockerfile')
-      );
+      // fs.copyFileSync(
+      //   path.resolve(`./Dockerfile`),
+      //   path.resolve(projectDir, './Dockerfile')
+      // );
 
       // 复制 .dockerignore 到项目目录
-      fs.copyFileSync(
-        path.resolve(__dirname, `./.dockerignore`),
-        path.resolve(projectDir, './.dockerignore')
-      );
+      // fs.copyFileSync(
+      //   path.resolve(__dirname, `./.dockerignore`),
+      //   path.resolve(projectDir, './.dockerignore')
+      // );
 
       // 创建 docker 镜像
       execSync(`docker build . -t ${data.repository.name}-image:latest `, {
