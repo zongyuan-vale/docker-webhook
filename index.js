@@ -2,6 +2,7 @@ const http = require('http');
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const { reject } = require('core-js/fn/promise');
 
 // 递归删除目录
 function deleteFolderRecursive(path) {
@@ -22,22 +23,36 @@ function deleteFolderRecursive(path) {
 
 const resolvePost = (req) =>
   new Promise((resolve) => {
-    let body = [];
+    let body = '';
     req.on('data', (chunk) => {
       console.log('chunk --- ', chunk);
-      body.push(chunk);
+      body += chunk;
     });
     req.on('end', () => {
-      resolve(JSON.parse(Buffer.concat(body).toString()));
+      try {
+        resolve(JSON.parse(body));
+      } catch (error) {
+        let res = decodeURIComponent(body);
+        if (res.startsWith('payload=')) {
+          resolve(JSON.parse(res.split('=')[1]));
+        } else {
+          reject(new Error('无法处理的返回值'));
+        }
+      }
     });
   });
 
 http
   .createServer(async (req, res) => {
     console.log('receive request');
-    console.log(req.url);
+    console.log('url', req.url);
     if (req.method === 'POST' && req.url === '/') {
       const data = await resolvePost(req);
+
+      if (!data || !data.repository) {
+        res.end(data.message);
+      }
+
       console.log('resolvePost --- ', data);
       const projectDir = path.resolve(`./${data.repository.name}`);
       deleteFolderRecursive(projectDir);
