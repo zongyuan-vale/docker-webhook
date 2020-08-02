@@ -22,14 +22,13 @@ function deleteFolderRecursive(path) {
 
 const resolvePost = (req) =>
   new Promise((resolve) => {
-    let chunk = '';
-    req.on('data', (data) => {
-      console.log('data --- ', data);
-      chunk += data;
+    let body = [];
+    req.on('data', (chunk) => {
+      console.log('chunk --- ', chunk);
+      body.push(chunk);
     });
     req.on('end', () => {
-      console.log('chunk --- ', chunk);
-      resolve(JSON.parse(chunk));
+      resolve(JSON.parse(Buffer.concat(body).toString()));
     });
   });
 
@@ -39,7 +38,7 @@ http
     console.log(req.url);
     if (req.method === 'POST' && req.url === '/') {
       const data = await resolvePost(req);
-      console.log("resolvePost --- ",data);
+      console.log('resolvePost --- ', data);
       const projectDir = path.resolve(`./${data.repository.name}`);
       deleteFolderRecursive(projectDir);
 
