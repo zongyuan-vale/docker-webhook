@@ -2,7 +2,6 @@ const http = require('http');
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { reject } = require('core-js/fn/promise');
 
 // 递归删除目录
 function deleteFolderRecursive(path) {
@@ -22,7 +21,7 @@ function deleteFolderRecursive(path) {
 }
 
 const resolvePost = (req) =>
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     let body = '';
     req.on('data', (chunk) => {
       console.log('chunk --- ', chunk);
